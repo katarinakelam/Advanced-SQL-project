@@ -1,0 +1,46 @@
+﻿@model NMIBP.Models.ViewModels.AddMovie
+
+@{
+    ViewBag.Title = "Add movies";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <h3>Add movies</h3>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-warning" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Categories, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Categories, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Summary, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Summary, new { @class = "form-control", rows = 3 })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 20 })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+

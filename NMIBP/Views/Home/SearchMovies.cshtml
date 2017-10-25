@@ -1,0 +1,109 @@
+﻿@model NMIBP.Models.ViewModels.SearchMovie
+
+@{
+    ViewBag.Title = "Search movies";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"> </script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"> </script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#Patterns").autocomplete({
+            source: function (request, response) {
+                var jqxhr = $.post("/Home/AutoComplete", {Patterns : request.term}).done(function (json) {
+                    var data = $.parseJSON(json);
+                    if (data != null) {
+                        response($.map(data, function (item) {
+                            return { label: item, value: item };
+                        }));
+
+                    }
+                    else {
+                        alert(response);
+                    }
+                });
+            },
+            messages:
+        {
+            noResults: function () { }, results: function () { }
+        }
+        });
+    });
+
+
+</script>
+
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        <h3>Search</h3>
+        <hr />
+        <div class="form-group" style="display:flex; margin-right:70%;">
+            @Html.LabelFor(model => model.Patterns, htmlAttributes: new { @class = "control-label col-md-12" })
+            <div class="col-md-12">
+                @Html.EditorFor(model => model.Patterns, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Operator, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(model => model.Operator, "&") AND
+                </label>
+                <label class="radio-inline">
+                    @Html.RadioButtonFor(model => model.Operator, "||") OR
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.SearchType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <label class="radio-inline">
+                    @Html.LabelFor(model => model.SearchType, "Semantic") - Based on morphology & semantic
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </div>
+        @if (!string.IsNullOrEmpty(Model.SQLQuery))
+        {
+            <div class="container">
+                <h4>SQL Query</h4>
+                <hr />
+                <div class="col-md-12">
+                    <textarea class="form-control valid" cols="40" id="SQLQuery" name="SQLQuery" readonly="readonly" rows="10" aria-invalid="false">@Html.Raw(Model.SQLQuery)</textarea>
+                </div>
+            </div>
+        }
+        <div class="container">
+            <h4>Search results (@Model.Movies.Count())</h4>
+            <hr />
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th colspan="2">Rank</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var d in Model.Movies.AsEnumerable())
+                    {
+                        <tr>
+                            <td>@Html.Raw(d.Title)</td>
+                            <td>@d.Rank</td>
+                            <td>@Html.ActionLink("View", "MovieData", "Home", new { id = d.ID }, new { @class = "btn btn-default" })</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
