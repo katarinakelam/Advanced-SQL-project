@@ -42,17 +42,6 @@ namespace NMIBP.BusinessLogic.BusinessQueries
             }
         }
 
-        private string ConcatenateStrings(ICollection<string> patterns)
-        {
-            var sb = new StringBuilder();
-            foreach (var p in patterns.AsEnumerable())
-            {
-                sb.AppendFormat("{0} ", p);
-            }
-            var temp = sb.ToString();
-            return temp.Substring(0, temp.Length - 1);
-        }
-
         private string Similarity(ICollection<string> patterns)
         {
             var sb = new StringBuilder();
