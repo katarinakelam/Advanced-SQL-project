@@ -1,5 +1,8 @@
+Project focused on advanced SQL knowledge, like TVectors, TQuerys and fuzzy string matching.
+
+
 --
--- movie.sql sadrûaj datoteke za generiranje prve tablice
+-- movie.sql file for creating the database
 --
 
 --
@@ -129,7 +132,7 @@ REINDEX TABLE movie;
 
 
 --
--- analysis_data.sql - sadrûaj datoteke za generiranje druge tablice
+-- analysis_data.sql - sadr≈æaj datoteke za generiranje druge tablice
 --
 
 --
